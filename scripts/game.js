@@ -6,20 +6,21 @@
 function buildLevel(level) {
         var laMap = levels[level].map;
         for (let i = 0; i < laMap.length; i++) {
-                for (let j = 0; j < laMap[i].length; j++)
-                        console.log(laMap[i].charAt(j));
+                $("#world").addClass("square");
+
+                for (let j = 0; j < laMap[i].length; j++) {
+                        if(laMap[i].charAt(j)==" "){}
+
+                }
 
         }
 }
 
 
 
-
-
-
-$( document ).ready(function() {
+$(document).ready(function () {
         buildLevel;
-    });
+});
 
 
 
