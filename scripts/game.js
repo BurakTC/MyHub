@@ -6,17 +6,17 @@
 function buildLevel(level) {
         var laMap = levels[level].map;
 
-
-        for (let i = 0; i < laMap.length; i++) {
+        for (var lignes of laMap) {
 
                 var divLigne = document.createElement('div');
                 $("#world").append(divLigne);
-
-                for (var c of laMap[i]) {
+                $(divLigne).addClass('Lignes')
+                for (var c of lignes) {
                         var divCase = document.createElement('div');
 
                         $(divLigne).append(divCase);
                         $(divCase).addClass('square');
+
                         if (c == " ") {
                                 $(divCase).addClass('empty');
                         }
@@ -40,6 +40,9 @@ function buildLevel(level) {
                 }
         }
 }
+
+
+
 
 
 
