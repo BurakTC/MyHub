@@ -18,22 +18,27 @@ footer{
     width:30px;
 }
 
-.player{
-    background-color: rgb(4, 0, 255)!important;
-}
-
-.box{
-    background-color: #800000;
-}
 
 .target{
-    background-color: rgb(228, 137, 0) ;
+     background-color: rgb(228, 137, 0) ; 
 }
 
 .wall{
     background-color: #848498;
+    background-image: 
 }
 
 .empty{
     background-color: #40bf80;
+}
+.boxtarget{
+    background-color: purple;
+}
+
+.player{
+    background-color: rgb(4, 0, 255);
+}
+
+.box{
+    background-color: #800000;
 }
