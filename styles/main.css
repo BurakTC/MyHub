@@ -20,30 +20,29 @@ footer{
 
 .target{
      background-color: rgb(228, 137, 0) ; 
-     background-image: url('scripts\images\target.png');
+     background-image: url('../images/target.png');
 }
 
 .wall{
      background-color: #848498; 
-     background-image: url('scripts\images\wall.png');
+     background-image: url('../images/wall.png');
 }
 
 .empty{
     background-color: #40bf80;
-    background-image: url('scripts\images\ground.png');
+    background-image: url('../images/ground.png');
 }
 
 .boxtarget{
     background-color: purple;
-    background-image: url('scripts\images\box-on-target.png');
+    background-image: url('../images/box-on-target.png');
 }
-
 .player{
-    background-image: url('images\player-front.png') ;
-    background-color: rgb(4, 0, 255);
+    background-image: url('../images/player-front.png') ;
+    background-color : rgb(4, 0, 255);
 }
 
 .box{
     background-color: #800000;
-    background-image: url('scripts\images\box.png');
+    background-image: url('../images/box.png');
 }
