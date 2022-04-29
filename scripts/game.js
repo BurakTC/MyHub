@@ -42,10 +42,7 @@ function buildLevel(level) {
                         }
                         else {
                                 $(divCase).addClass('wall');
-
                         }
-
-
                 }
         }
 }
