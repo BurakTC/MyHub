@@ -21,27 +21,29 @@ function buildLevel(level) {
             $(divLigne).append(divCase);
             $(divCase).addClass('square');
 
-            if (c == " ") {
-                $(divCase).addClass('empty');
-            }
-            else if (c == '#') {
-                $(divCase).addClass('box');
-                $(divCase).addClass('empty');
-            }
-            else if (c == 'x') {
-                $(divCase).addClass('target');
-            }
-            else if (c == '🧍') {
+            switch (c) {
+                case " ":
+                    $(divCase).addClass('empty');
+                    break;
+                case '#':
+                    $(divCase).addClass('box');
+                    $(divCase).addClass('empty');
+                    break;
+                case 'x':
+                    $(divCase).addClass('target');
+                    break;
+                case '🧍':
+                    $(divCase).addClass('empty');
+                    $(divCase).addClass('player');
+                    break;
+                case '@':
+                    $(divCase).addClass('box');
+                    $(divCase).addClass('target');
+                    break;
+                default:
+                    $(divCase).addClass('wall');
+                    break;
 
-                $(divCase).addClass('empty');
-                $(divCase).addClass('player');
-            }
-            else if (c == '@') {
-                $(divCase).addClass('box');
-                $(divCase).addClass('target');
-            }
-            else {
-                $(divCase).addClass('wall');
             }
         }
     }
@@ -86,8 +88,6 @@ function getSquareAt(position) {
 
 
 function move() {
-
-
     window.onkeydown = function (e) {
 
         let playerpos = getPlayerPosition();
@@ -113,14 +113,15 @@ function move() {
 
                             getSquareAt(moveLeft).addClass('player');
                             getSquareAt(playerpos).removeClass('player');
+                            incrMoves();
                         }
                     }
                     else {
                         getSquareAt(moveLeft).addClass('player');
                         getSquareAt(playerpos).removeClass('player');
-                    } incrMoves();
+                        incrMoves();
+                    }
                 }
-
                 break;
             case 39:
                 //-Move right
@@ -142,16 +143,18 @@ function move() {
 
                             getSquareAt(moveRight).addClass('player');
                             getSquareAt(playerpos).removeClass('player');
+                            incrMoves();
 
                         }
                     }
                     else {
                         getSquareAt(moveRight).addClass('player');
                         getSquareAt(playerpos).removeClass('player');
+                        incrMoves();
 
                     }
                 }
-                incrMoves();
+
                 break;
 
             case 38:
@@ -173,16 +176,17 @@ function move() {
 
                             getSquareAt(moveUp).addClass('player');
                             getSquareAt(playerpos).removeClass('player');
+                            incrMoves();
                         }
                     }
                     else {
                         getSquareAt(moveUp).addClass('player');
                         getSquareAt(playerpos).removeClass('player');
+                        incrMoves();
+
                     }
 
                 }
-                incrMoves();
-
                 break;
             case 40:
                 //-Move down
@@ -203,15 +207,16 @@ function move() {
 
                             getSquareAt(moveDown).addClass('player');
                             getSquareAt(playerpos).removeClass('player');
+                            incrMoves();
                         }
                     }
                     else {
                         getSquareAt(moveDown).addClass('player');
                         getSquareAt(playerpos).removeClass('player');
+                        incrMoves();
+
                     }
                 }
-                incrMoves();
-
                 break;
             default:
                 break;
@@ -239,20 +244,22 @@ function allOnTarget() {
     return alltarget;
 }
 
-
 let niv = 0
 function initLevel() {
-    buildLevel(niv);
     compteur = 0;
+    buildLevel(niv);
     niv++
 }
 
 
 function finishLevel() {
-    if (allOnTarget() == true) {
+    if (allOnTarget()) {
+        $("#world").empty()
         initLevel();
     }
+
 }
+
 
 
 /*
@@ -270,7 +277,18 @@ let m = new Map([
 */
 
 $(document).ready(function () {
-    $(window).on('keydown', (e) => finishLevel());
     initLevel();
     move();
+    
+    $(window).keypress(function (e) {
+        if (e.key === ' ') {
+            finishLevel();
+        }
+    })
+    
+    $("#restart").click(function(){
+        $("#world").empty()
+        niv--;
+        initLevel();
+    })
 });
