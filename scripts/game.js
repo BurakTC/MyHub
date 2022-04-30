@@ -183,9 +183,7 @@ function move() {
                         getSquareAt(moveUp).addClass('player');
                         getSquareAt(playerpos).removeClass('player');
                         incrMoves();
-
                     }
-
                 }
                 break;
             case 40:
@@ -214,7 +212,6 @@ function move() {
                         getSquareAt(moveDown).addClass('player');
                         getSquareAt(playerpos).removeClass('player');
                         incrMoves();
-
                     }
                 }
                 break;
@@ -241,6 +238,7 @@ function allOnTarget() {
             return false;
         }
     }
+    
     return alltarget;
 }
 
@@ -248,7 +246,6 @@ let niv = 0
 function initLevel() {
     compteur = 0;
     buildLevel(niv);
-    niv++
 }
 
 
@@ -257,7 +254,10 @@ function finishLevel() {
         $("#world").empty()
         initLevel();
     }
-
+    niv++
+    if(niv == 7){
+        alert("Félicitations, vous avez fini le jeu !")
+    }
 }
 
 
@@ -275,6 +275,8 @@ let m = new Map([
     m.get(1)
      'un'
 */
+
+
 
 $(document).ready(function () {
     initLevel();
