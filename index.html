@@ -12,17 +12,38 @@
 </head>
 
 <body>
-
-
     <h1>Sokobon</h1>
-    <span>Vous avez effectué <output id="cpt">0</output> mouvements</span>
-    <div id="gamebody">
-        <div id="world"></div>
+    <span>Vous avez effectué <output id="cpt">0</output> mouvements</span> <br>
+    <span>Vous êtes au niveau <output id="niv">0</output>.</span>
 
+    <div class="modale">
+        <div class="boite">
+            <h2>Voici quelques astuces</h2>
+            <p>Il se trouve des boites et des cibles dans chaque niveau :</p>
+            <img class="aides" src="images\help-level.png" alt="boxes and targets">
+            <p>Vous devez deposer toute les boites sur les cibles pour gagner :</p>
+            <img class="aides" src="images\help-win.png" alt="win rules">
+            <p>Vous ne pouvez pousser que dans une direction : </p>
+            <img class="aides" src="images\help-pull.png" alt="one direction">
+            <p>Vous ne pouvez pas pousser 2 boites a la fois :</p>
+            <img class="aides" src="images\help-double.png" alt="can't push 2 boxes">
+            <button id="fermer">
+                Fermer
+            </button>
+        </div>
+
+    </div>
+
+    <div>
+        <div id="world"></div>
         <button id="aide">AIDE</button>
+        <button id="annuler">Annuler mouvement</button>
         <button id="restart">Recommencer niveau</button>
 
     </div>
+
+
+    <div id="texte"></div>
 
     <footer>| Burcak | Burakcan | 57973 | Tni |</footer>
 </body>

@@ -87,137 +87,116 @@ function getSquareAt(position) {
 }
 
 
+class State {
+
+    #playerPos;
+    #boxpos;
+
+    /**
+    * @param {{x:number; y: number}} playerPos 
+    * @param {{x:number; y: number}} boxPos
+    */
+    constructor(playerPos, boxPos) {
+        this.#playerPos = playerPos;
+        this.#boxpos = boxPos;
+    }
+
+    get playerPosition() {
+        return this.#playerPos;
+    }
+    get boxPosition() {
+        return this.#boxpos;
+    }
+}
+
+let states = new Array();
+let newboxpos=new Array();
 function move() {
     window.onkeydown = function (e) {
 
         let playerpos = getPlayerPosition();
 
-        var key = e.keyCode || e.which;
-        switch (key) {
-            case 37:
-                //-Move left
-                let moveLeft = {
-                    x: playerpos.x,
-                    y: playerpos.y - 1
-                }
-                let leftAgain = {
-                    x: moveLeft.x,
-                    y: moveLeft.y - 1
-                }
-
-                if (!($(getSquareAt(moveLeft)).hasClass('wall'))) {
-                    if ($(getSquareAt(moveLeft)).hasClass('box')) {
-                        if (!($(getSquareAt(leftAgain)).hasClass('box')) && !$(getSquareAt(leftAgain)).hasClass('wall')) {
-                            getSquareAt(moveLeft).removeClass('box');
-                            getSquareAt(leftAgain).addClass('box');
-
-                            getSquareAt(moveLeft).addClass('player');
-                            getSquareAt(playerpos).removeClass('player');
-                            incrMoves();
-                        }
+        var key = e.keyCode;
+        let move;
+        let move2;
+        if (playerpos) {   //pour enlever les erreurs de soulignements(possibly undefined)
+            switch (key) {
+                case 37:
+                    move = {
+                        x: playerpos.x,
+                        y: playerpos.y - 1
                     }
-                    else {
-                        getSquareAt(moveLeft).addClass('player');
-                        getSquareAt(playerpos).removeClass('player');
-                        incrMoves();
+                    move2 = {
+                        x: move.x,
+                        y: move.y - 1
                     }
-                }
-                break;
-            case 39:
-                //-Move right
-                let moveRight = {
-                    x: playerpos.x,
-                    y: playerpos.y + 1
-                }
-
-                let rightAgain = {
-                    x: moveRight.x,
-                    y: moveRight.y + 1
-                }
-                if (!($(getSquareAt(moveRight)).hasClass('wall'))) {
-
-                    if ($(getSquareAt(moveRight)).hasClass('box')) {
-                        if (!($(getSquareAt(rightAgain)).hasClass('box')) && !$(getSquareAt(rightAgain)).hasClass('wall')) {
-                            getSquareAt(moveRight).removeClass('box');
-                            getSquareAt(rightAgain).addClass('box');
-
-                            getSquareAt(moveRight).addClass('player');
-                            getSquareAt(playerpos).removeClass('player');
-                            incrMoves();
-
-                        }
+                    break;
+                case 39:
+                    move = {
+                        x: playerpos.x,
+                        y: playerpos.y + 1
                     }
-                    else {
-                        getSquareAt(moveRight).addClass('player');
-                        getSquareAt(playerpos).removeClass('player');
-                        incrMoves();
-
+                    move2 = {
+                        x: move.x,
+                        y: move.y + 1
                     }
-                }
-
-                break;
-
-            case 38:
-                //-Move up
-                let moveUp = {
-                    x: playerpos.x - 1,
-                    y: playerpos.y
-                }
-                let upAgain = {
-                    x: moveUp.x - 1,
-                    y: moveUp.y
-                }
-                if (!($(getSquareAt(moveUp)).hasClass('wall'))) {
-
-                    if ($(getSquareAt(moveUp)).hasClass('box')) {
-                        if (!($(getSquareAt(upAgain)).hasClass('box')) && !$(getSquareAt(upAgain)).hasClass('wall')) {
-                            getSquareAt(moveUp).removeClass('box');
-                            getSquareAt(upAgain).addClass('box');
-
-                            getSquareAt(moveUp).addClass('player');
-                            getSquareAt(playerpos).removeClass('player');
-                            incrMoves();
-                        }
+                    break;
+                case 40:
+                    move = {
+                        x: playerpos.x + 1,
+                        y: playerpos.y
                     }
-                    else {
-                        getSquareAt(moveUp).addClass('player');
-                        getSquareAt(playerpos).removeClass('player');
-                        incrMoves();
+                    move2 = {
+                        x: move.x + 1,
+                        y: move.y
                     }
-                }
-                break;
-            case 40:
-                //-Move down
-                let moveDown = {
-                    x: playerpos.x + 1,
-                    y: playerpos.y
-                }
-                let downAgain = {
-                    x: moveDown.x + 1,
-                    y: moveDown.y
-                }
-                if (!($(getSquareAt(moveDown)).hasClass('wall'))) {
-
-                    if ($(getSquareAt(moveDown)).hasClass('box')) {
-                        if (!($(getSquareAt(downAgain)).hasClass('box')) && !$(getSquareAt(downAgain)).hasClass('wall')) {
-                            getSquareAt(moveDown).removeClass('box');
-                            getSquareAt(downAgain).addClass('box');
-
-                            getSquareAt(moveDown).addClass('player');
-                            getSquareAt(playerpos).removeClass('player');
-                            incrMoves();
-                        }
+                    break;
+                case 38:
+                    move = {
+                        x: playerpos.x - 1,
+                        y: playerpos.y
                     }
-                    else {
-                        getSquareAt(moveDown).addClass('player');
-                        getSquareAt(playerpos).removeClass('player');
-                        incrMoves();
+                    move2 = {
+                        x: move.x - 1,
+                        y: move.y
                     }
-                }
-                break;
-            default:
-                break;
+                    break;
+            }
         }
+
+
+        if (allOnTarget() == false) {
+            if (move && playerpos && move2) {//sert juste à enlever les erreurs et soulignements(possibly undefined)
+                if (!($(getSquareAt(move)).hasClass('wall'))) {
+                    if ($(getSquareAt(move)).hasClass('box')) {
+                        if (!($(getSquareAt(move2)).hasClass('box')) && !$(getSquareAt(move2)).hasClass('wall')) {
+                            getSquareAt(move).removeClass('box');
+                            getSquareAt(move2).addClass('box');
+
+                            getSquareAt(move).addClass('player');
+                            getSquareAt(playerpos).removeClass('player');
+                            incrMoves();
+                            states.push(new State({ x: playerpos?.x, y: playerpos?.y }, { x: move?.x, y: move?.y }));
+                            newboxpos.push(move2);
+
+                            if (allOnTarget()) {
+                                $("#texte").text('Félicitations, vous avez terminé le niveau ' + niv + ' , pour passer au suivant appuyez sur espace !');
+                            }
+                        }
+                    }
+
+                    else {
+                        getSquareAt(move).addClass('player');
+                        getSquareAt(playerpos).removeClass('player');
+                        incrMoves();
+                        if (allOnTarget()) {
+                            $("#texte").text('Félicitations, vous avez terminé le niveau ' + niv + ' , pour passer au suivant appuyez sur espace !');
+                        }
+                    }
+                }
+            }
+        }
+
     }
 };
 
@@ -225,8 +204,12 @@ var compteur = 0;
 function incrMoves() {
     compteur++;
     $("#cpt").text(compteur);
+    $("#niv").text(niv);
 }
-
+function decrMoves(){
+    compteur--;
+    $("#cpt").text(compteur);
+}
 
 function allOnTarget() {
     let alltarget = false;
@@ -238,59 +221,83 @@ function allOnTarget() {
             return false;
         }
     }
-    
     return alltarget;
 }
 
-let niv = 0
+let niv = 0;
 function initLevel() {
     compteur = 0;
+    states=[];
+
+    $("#cpt").text(compteur);
     buildLevel(niv);
+    $("#niv").text(niv + 1);
+    niv++
 }
 
 
 function finishLevel() {
     if (allOnTarget()) {
         $("#world").empty()
-        initLevel();
-    }
-    niv++
-    if(niv == 7){
-        alert("Félicitations, vous avez fini le jeu !")
+        if (niv == 7) {
+            $("#world").empty();
+            $("#texte").text("Félicitations , vous avez terminé le jeu, bien joué !");
+        }
+        else {
+            initLevel();
+            $("#texte").text(' ');
+
+        }
     }
 }
 
-
-
-/*
-LIRE DOC MAPPING UTILE POUR CODE PROPRE 
-var s = new Map([key1,val1],[key2,val2]);   les key sont les clé par ex les touches, a droite ce sont les fonctions appelées en consequences( directions de mouvements par ex)
-s.get(<key>)
-Avant de charger nvl map faire :$("#world").empty() pour vider l ancien niveau.
-
-let m = new Map([
-    [1, "un"],
-    [2, "deux"]]);
-
-    m.get(1)
-     'un'
-*/
-
-
-
-$(document).ready(function () {
-    initLevel();
-    move();
-    
-    $(window).keypress(function (e) {
-        if (e.key === ' ') {
-            finishLevel();
-        }
-    })
-    
-    $("#restart").click(function(){
+function restart() {
+    $("#restart").click(function () {
         $("#world").empty()
         niv--;
         initLevel();
     })
-});
+}
+
+
+$(document).ready(function () {
+
+    initLevel();
+    move();
+
+    $(window).keypress(function (e) {
+        if (e.key === ' ') {
+            finishLevel();
+        }
+
+    });
+    restart();
+
+    $('#aide').click(function () {
+        $('.modale').show();
+    })
+    $('#fermer').click(function () {
+        $('.modale').hide();
+    })
+
+    $('#annuler').click(function () {
+        if (states.length > 0) {      // pour eviter l'erreur en cas d appui sans faire de mouvement
+            let lastState = states.pop();
+            let lastPlayerpos = lastState.playerPosition;
+            let lastBoxPos = lastState.boxPosition;
+            let boxpos = newboxpos.pop()
+
+            getSquareAt(getPlayerPosition()).removeClass('player');
+            getSquareAt(lastPlayerpos).addClass('player');
+
+            getSquareAt(boxpos).removeClass('box')
+            getSquareAt(lastBoxPos).addClass('box');
+       
+            decrMoves()
+
+        }
+
+
+    })
+
+})

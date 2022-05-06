@@ -1,11 +1,13 @@
 html{
-    background-image: url('https://64.media.tumblr.com/ea568d43430e0f881680e5cdb622a1b3/tumblr_inline_n258q4r8c01qhwjx8.png');
+background-color: #5a189a;
 }
 
 body{
-    color: red;
+    color: #c77dff;
     text-align: center;
-    
+}
+#texte{
+color: whitesmoke;
 }
 
 footer{
@@ -15,14 +17,14 @@ footer{
     margin-left: 40%;
 }   
 
-#gamebody{
+#world{
 position: absolute;
-top: 50%;
+top: 60%;
 left: 50%;
 transform: translate(-50%,-50%);
-background-color: black;
-padding: 2em;
+background-color: #02224b;
 }
+
 
 .Lignes{
     display:flex;
@@ -48,14 +50,20 @@ padding: 2em;
     background-image: url('../images/ground.png');
 }
 
-.boxtarget{
+.target.box{
     background-color: purple;
     background-image: url('../images/box-on-target.png');
 }
+.playerfront1{
+    background-image: url('../images/player-front.png') ;
+    background-color : rgb(4, 0, 255);
+}
+
 .player{
     background-image: url('../images/player-front.png') ;
     background-color : rgb(4, 0, 255);
 }
+
 .won{
     background-image: url('../mages/player-won.png');
 }
@@ -64,3 +72,46 @@ padding: 2em;
     background-color: #800000;
     background-image: url('../images/box.png');
 }
+
+span{
+    padding-bottom: 2em;
+}
+
+button{
+margin-top: 1em;
+border-radius: 2em;
+background-color: blue;
+}
+
+.modale{
+    position : fixed;
+    top: 0;
+    left :0;
+    width: 100vw;
+    height: 100vh;
+    z-index:100;
+    background: rgba(0, 0, 0, .7);
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+.boite{
+    top: 6em;
+    position:relative ;
+    padding: 50 px;
+    background-color: #fff;
+    border-radius: 20px;
+    height: 25em;
+    display:inline-block;
+}
+.aides{
+    height: 30px;
+    width: auto;
+}
+#fermer{
+    position: absolute;
+    top: 10px;
+    right: 5px;
+}
+
