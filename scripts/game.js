@@ -184,7 +184,6 @@ function move() {
                             }
                         }
                     }
-
                     else {
                         getSquareAt(move).addClass('player');
                         getSquareAt(playerpos).removeClass('player');
@@ -204,8 +203,12 @@ var compteur = 0;
 function incrMoves() {
     compteur++;
     $("#cpt").text(compteur);
+    if(compteur > $("#score").val()){
+        $("#score").text(compteur);
+    }
     $("#niv").text(niv);
 }
+
 function decrMoves(){
     compteur--;
     $("#cpt").text(compteur);
@@ -224,7 +227,16 @@ function allOnTarget() {
     return alltarget;
 }
 
+function bestScore(){
+    localStorage.setItem('score',JSON.stringify(compteur))
+    $("#score").text(localStorage.getItem('score'));
+}
+
 let niv = 0;
+function displayTarget(){
+    $("#target").text(levels[niv-1].best);
+}
+
 function initLevel() {
     compteur = 0;
     states=[];
@@ -233,8 +245,8 @@ function initLevel() {
     buildLevel(niv);
     $("#niv").text(niv + 1);
     niv++
+    displayTarget();
 }
-
 
 function finishLevel() {
     if (allOnTarget()) {
@@ -246,8 +258,8 @@ function finishLevel() {
         else {
             initLevel();
             $("#texte").text(' ');
-
         }
+        localStorage.setItem("score",compteur);
     }
 }
 
@@ -259,23 +271,43 @@ function restart() {
     })
 }
 
-
 $(document).ready(function () {
-
+    // défense : explication du bouton 'r' et 'u' dans la fenetre d'aide modale
     initLevel();
     move();
-
+    displayTarget();
     $(window).keypress(function (e) {
         if (e.key === ' ') {
             finishLevel();
         }
-
+        if (e.key === 'u') {
+            if (states.length > 0) {      // pour eviter l'erreur en cas d appui sans faire de mouvement
+                let lastState = states.pop();
+                let lastPlayerpos = lastState.playerPosition;
+                let lastBoxPos = lastState.boxPosition;
+                let boxpos = newboxpos.pop()
+    
+                getSquareAt(getPlayerPosition()).removeClass('player');
+                getSquareAt(lastPlayerpos).addClass('player');
+    
+                getSquareAt(boxpos).removeClass('box')
+                getSquareAt(lastBoxPos).addClass('box');
+           
+                decrMoves()
+            }
+        }
+        if (e.key === 'r') {
+            $("#world").empty()
+            niv--;
+            initLevel();
+        }
     });
     restart();
 
     $('#aide').click(function () {
         $('.modale').show();
     })
+
     $('#fermer').click(function () {
         $('.modale').hide();
     })
@@ -294,10 +326,13 @@ $(document).ready(function () {
             getSquareAt(lastBoxPos).addClass('box');
        
             decrMoves()
-
         }
-
-
     })
+    bestScore();
 
+    $("#resetscores").click(function () {
+        localStorage.clear();
+        $("#score").text('0');
+    });
+    
 })
