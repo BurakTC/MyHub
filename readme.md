@@ -1,6 +1,6 @@
 # Sokoban Game
 
-![Sokoban Game Preview](preview.png)
+![Sokoban Game Preview](images/preview.png)
 
 ## Description
 Sokoban is a classic 2D puzzle platformer game where the player pushes boxes to their designated locations within a maze. This project is a Sokoban game implemented using JavaScript, jQuery, HTML, and CSS.
